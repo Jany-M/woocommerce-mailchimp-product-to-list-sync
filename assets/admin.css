@@ -1,0 +1,92 @@
+/* General */
+.align_center{
+	text-align: center;
+}
+.align_right{
+	text-align: right;
+}
+#cover {
+	display: none;
+	z-index: 99999999;
+	background: url("loader-page.gif") no-repeat scroll center center rgba( 240, 240, 240, .5 );
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+
+/* Placeholder */
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #AAA;
+  opacity: 1; /* Firefox */
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #AAA;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #AAA;
+}
+textarea::-webkit-input-placeholder {
+  color: #AAA;
+}
+textarea:-moz-placeholder { /* Firefox 18- */
+  color: #AAA;  
+}
+textarea::-moz-placeholder {  /* Firefox 19+ */
+  color: #AAA;  
+}
+textarea:-ms-input-placeholder {
+  color: #AAA;  
+}
+textarea::placeholder {
+  color: #AAA;  
+}
+
+.widefat tbody td {
+    border-bottom: 1px solid #c3c4c7;
+}
+
+/*.widefat thead tr th, .widefat tfoot tr th {
+    color: #2c3338;
+    background: #DDD;
+}*/
+
+.even {
+    background-color: inherit;
+}
+.odd {
+    background-color: #EFEFEF;
+}
+
+#admin-page h1{
+	font-weight: 700;
+}
+#tabs{
+	margin-top: 20px;
+}
+#tabs .content-tab-wrapper{
+	border: solid 1px #ccc;
+	border-top: none;
+	padding: 10px;
+}
+@media screen and (max-width: 600px){
+	#tabs .content-tab-wrapper{border-top: solid 1px #ccc;}
+}
+
+.section-title{
+	background: gainsboro;
+	padding: 5px 10px!important;
+	font-size: large !important;
+}
+
+/* log */
+.row_log{}
+.main_log td{color: blue;}
+.debug_log td{color: #AAA;}
+
+/* order page */
+.mailchimp_sync_no, .mailchimp_sync_yes{font-weight: bold;}
+.mailchimp_sync_no{color: #AAA;}
+.mailchimp_sync_yes{color: limegreen;}
+.mailchimp_sync_force{cursor: pointer;}
