@@ -38,6 +38,91 @@ if ( ! defined( 'WPINC' ) ) die;
 				</tr>
 
 				<tr valign="top">
+				<td colspan="2"><hr /></td>
+				</tr>
+				
+				<?php
+					$cl = $this->get_setting('create_list');
+					if( !is_array($cl) ) $cl = [];
+				?>
+				
+				<tr valign="top">
+				<th scope="row"><?php echo __('For MailChimp List Creation:', $this->textdomain);?></th>
+				<td>
+
+
+				<p class="description" style="margin-top: 20px;">Enter company name</p>
+				<input type="text" class="regular-text" name="create_list[company]" value="<?php echo $cl['company'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter address1</p>
+				<input type="text" class="regular-text" name="create_list[address1]" value="<?php echo $cl['address1'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter address2</p>
+				<input type="text" class="regular-text" name="create_list[address2]" value="<?php echo $cl['address2'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter city</p>
+				<input type="text" class="regular-text" name="create_list[city]" value="<?php echo $cl['city'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter state</p>
+				<input type="text" class="regular-text" name="create_list[state]" value="<?php echo $cl['state'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter zip</p>
+				<input type="text" class="regular-text" name="create_list[zip]" value="<?php echo $cl['zip'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter country</p>
+				<input type="text" class="regular-text" name="create_list[country]" value="<?php echo $cl['country'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter phone</p>
+				<input type="text" class="regular-text" name="create_list[phone]" value="<?php echo $cl['phone'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter permission reminder</p>
+				<input type="text" class="regular-text" name="create_list[permission_reminder]" value="<?php echo $cl['permission_reminder'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Use the Archive Bar?</p>
+				<label><input type="radio" name="create_list[archive_bars]" value="true" <?php echo ($cl['archive_bars'] == 'true') ? 'checked="checked"' : '';?>> YES</label>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="create_list[archive_bars]" value="false" <?php echo ($cl['archive_bars'] == 'false') ? 'checked="checked"' : '';?>> NO</label>  
+				
+				<p class="description" style="margin-top: 20px;">Enter from_name</p>
+				<input type="text" class="regular-text" name="create_list[from_name]" value="<?php echo $cl['from_name'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter from_email</p>
+				<input type="text" class="regular-text" name="create_list[from_email]" value="<?php echo $cl['from_email'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter subject</p>
+				<input type="text" class="regular-text" name="create_list[subject]" value="<?php echo $cl['subject'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter language</p>
+				<input type="text" class="regular-text" name="create_list[language]" value="<?php echo $cl['language'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter notify_subs</p>
+				<input type="text" class="regular-text" name="create_list[notify_subs]" value="<?php echo $cl['notify_subs'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Enter notify_unsubs</p>
+				<input type="text" class="regular-text" name="create_list[notify_unsubs]" value="<?php echo $cl['notify_unsubs'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Select email_type_option</p>
+				<label><input type="radio" name="create_list[type]" value="true" <?php echo ($cl['type'] == 'true') ? 'checked="checked"' : '';?>> YES</label>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="create_list[type]" value="false" <?php echo ($cl['type'] == 'false') ? 'checked="checked"' : '';?>> NO</label>  
+				
+				<p class="description" style="margin-top: 20px;">Enter visibility</p>
+				<input type="text" class="regular-text" name="create_list[visibility]" value="<?php echo $cl['visibility'];?>">
+				
+				<p class="description" style="margin-top: 20px;">Select double_optin?</p>
+				<label><input type="radio" name="create_list[double_optin]" value="true" <?php echo ($cl['double_optin'] == 'true') ? 'checked="checked"' : '';?>> YES</label>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="create_list[double_optin]" value="false" <?php echo ($cl['double_optin'] == 'false') ? 'checked="checked"' : '';?>> NO</label>  
+				
+				<p class="description" style="margin-top: 20px;">Select marketing_permissions?</p>
+				<label><input type="radio" name="create_list[marketing_permissions]" value="true" <?php echo ($cl['marketing_permissions'] == 'true') ? 'checked="checked"' : '';?>> YES</label>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label><input type="radio" name="create_list[marketing_permissions]" value="false" <?php echo ($cl['marketing_permissions'] == 'false') ? 'checked="checked"' : '';?>> NO</label>  
+				
+				</td>
+				</tr>
+				
+				
+				
+				
+
+				<tr valign="top">
 				<th scope="row">&nbsp;</th>
 				<td>
 					<table><tr valign="top">

@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce - Mailchimp Product to List Sync
 Description: Assign WooCommerce products to Mailchimp Audiences (old Lists) and sync customers to them upon completed purchase/payment.
 Author: Shambix
-Version: 1.0.1-beta
+Version: 1.0.2
 Author URI: https://www.shambix.com/
 License: GPL V3
 Text Domain: wmptls
@@ -13,7 +13,7 @@ Text Domain: wmptls
 if ( ! defined( 'WPINC' ) ) die;
 
 class woo_mailchimp_product_class{
-	private $_plugin_ver = '1.0.0';
+	private $_plugin_ver = '1.0.2';
 	private $_db_ver = '1.0';
 	public  $textdomain = 'wmptls';
 	protected static $_instance = null;
@@ -289,15 +289,15 @@ class woo_mailchimp_product_class{
 	
 	public function callback_configuration(){
 		if($_POST){
-//func_pr($_POST);
+			//func_pr($_POST);die;
 			
 			$api_key = ( isset($_POST['api_key']) ) ? $_POST['api_key'] : false;
 			$csv_delimiter	= ( isset($_POST['csv_delimiter']) ) ? trim($_POST['csv_delimiter']) : false;
-			
+			$create_list	= ( isset($_POST['create_list']) ) ? $_POST['create_list'] : false;			
 			// Save settings
 			$this->save_setting($api_key, 'api_key');
 			$this->save_setting($csv_delimiter, 'csv_delimiter');
-			
+			$this->save_setting($create_list, 'create_list');			
 			// Clear all local cache
 			if($clear_cache == 'YES'){
 				$this->clear_local_cache();
@@ -748,28 +748,33 @@ class woo_mailchimp_product_class{
 	//call_api($method, $path = '', $query = false, $body = false, $additional_headers = false){
 	public function create_mailchimp_list($list_name){
 		if( !strlen($list_name) ) return false;
+		$list_name = trim($list_name, '-_');
 
-		$company = '';
-		$address1 = '';
-		$address2 = '';
-		$city = '';
-		$state = '';
-		$zip = '';
-		$country = '';
-		$phone = '';
-		$permission_reminder = '';
-		$archive_bars = false;
-		$from_name = '';
-		$from_email = '';
-		$subject = '';
-		$language = '';
-		$notify_subs = '';
-		$notify_unsubs = '';
-		$type = false;
-		$visibility = 'pub';
-		$double_optin = true;
-		$marketing_permissions = false;
+		$cl = $this->get_setting('create_list');
+		if( !is_array($cl) ) $cl = [];
 		
+		$company = $cl['company']; //'ProViaggiArchitettura';
+		$address1 = $cl['address1']; //'398, Via Emilia Levante';
+		$address2 = $cl['address2']; //'';
+		$city = $cl['city']; //'Castel Bolognese';
+		$state = $cl['state']; //'Italy';
+		$zip = $cl['zip']; //'48014';
+		$country = $cl['country']; //'US';
+		$phone = $cl['phone']; //'';
+		$permission_reminder = $cl['permission_reminder']; //'0';
+		
+		$archive_bars = ($cl['archive_bars'] == 'true') ? true : false; //false;
+		$from_name = $cl['from_name']; //'ProViaggiArchitettura';
+		$from_email = $cl['from_email']; //'info@proviaggiarchitettura.com';
+		$subject = $cl['subject']; //'ProViaggiArchitettura';
+		$language = $cl['language']; //'IT';
+		$notify_subs = $cl['notify_subs']; //'';
+		$notify_unsubs = $cl['notify_unsubs']; //'';
+		
+		$type = ($cl['type'] == 'true') ? true : false; //false;
+		$visibility = $cl['visibility']; //'pub';
+		$double_optin = ($cl['double_optin'] == 'true') ? true : false; //false;
+		$marketing_permissions = ($cl['marketing_permissions'] == 'true') ? true : false; //false;		
 		$body = array(
 			'name' => $list_name,
 			'contact' => array (
@@ -834,7 +839,12 @@ class woo_mailchimp_product_class{
     }
 
     public function display_meta_box( $post ) {
-		$obj  = wc_get_product( $post->ID );
+		$dont_create_mailchimp_list = get_post_meta( $post->ID, 'dont_create_mailchimp_list', true );
+		if($dont_create_mailchimp_list == 'YES'){
+			echo '<p>Don\'t create a Mailchimp list for this product</p>';
+			return false;
+		}
+				$obj  = wc_get_product( $post->ID );
 		
 		$slug = $obj->get_slug();
 		if($slug == '') $slug = sanitize_title( $obj->get_name() );
@@ -852,7 +862,12 @@ class woo_mailchimp_product_class{
 				if($arr = $this->get_mailchimp_list_info($existing_mailchimp_list_id)){
 					echo sprintf('<p><strong>%s:</strong><br><a href="%s" target="_blank"><strong>%s</strong></a></p>', 'Current List', $arr['url'], $arr['title']);
 				}
-			}
+				
+				$checked = '';
+			}else{
+				
+				$checked = 'checked="checked"';
+							}
 			
         ?>
 			<label for="mailchimp_list_select"><strong><?php _e( 'Select Existing List:', 'wmptls' ); ?></strong></label>
@@ -873,10 +888,12 @@ class woo_mailchimp_product_class{
 
         <?php
 		}else{
+			$checked = 'checked="checked"';			
 			// Add an nonce field so we can check for it later.
 			wp_nonce_field( 'myplugin_inner_custom_box', 'myplugin_inner_custom_box_nonce' );
 			
-			echo '<p>This product will be assigned to auto-generated list.</p>';
+			//echo '<p>This product will be assigned to auto-generated list.</p>';
+			echo '<p><label><input type="checkbox" name="dont_create_mailchimp_list" value="YES" ' . $checked . ' /> Don\'t create a Mailchimp list for this product</label></p>';
 		}
     }
 
@@ -918,7 +935,18 @@ class woo_mailchimp_product_class{
             }
         }
  
-		$_SESSION['log_group_id'] = substr(md5(uniqid(mt_rand(), true)), 0, 5);
+//___________________________________________________________________________________
+		if( isset($_POST['dont_create_mailchimp_list']) && $_POST['dont_create_mailchimp_list'] == 'YES' ){
+			update_post_meta( $post_id, 'dont_create_mailchimp_list', 'YES' );
+			delete_post_meta( $post_id, 'mailchimp_list_id' );
+			return $post_id;
+			
+		}else{
+			delete_post_meta( $post_id, 'dont_create_mailchimp_list' );
+		}
+		//___________________________________________________________________________________
+ 
+ 		$_SESSION['log_group_id'] = substr(md5(uniqid(mt_rand(), true)), 0, 5);
 		$_SESSION['log_plugin'] = 'SYSTEM';
 		$_SESSION['log_email'] = wp_get_current_user()->user_email; 
 
@@ -961,6 +989,9 @@ class woo_mailchimp_product_class{
 					update_post_meta( $post_id, 'mailchimp_list_id', $mailchimp_list_select );				
 				}
 				
+			}else{
+				//reset list
+				delete_post_meta( $post_id, 'mailchimp_list_id' );				
 			}
 		
 		}

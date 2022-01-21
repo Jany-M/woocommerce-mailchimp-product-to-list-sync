@@ -79,6 +79,9 @@ Then go in your WooCommerce Order list and for all orders that contained that pr
 Go in your WooCommerce Order list and find the Order from that particular customer.
 Now you can force the re-sync of the customer to that assigned Audience.
 
+= How do I disconnect a product from a list? =
+In the product edit page, just deselect the list (choose -- Select --).
+
 = Something isn't working! =
 
 You want to make sure you added your Mailchimp API key correctly, to the plugin's option page.
@@ -96,6 +99,11 @@ Unfortunately I cannot provide timely individual support, for lack of time (this
 3. WooCommerce backend Order page - Assigned Audience doesn't exist anymore on Mailchimp (probably deleted manually)
 
 == Changelog ==
+
+= 1.0.2 =
+* Added default list values to options page
+* Added control checkbox to exclude product
+* Added possibility to disconnect product from list
 
 = 1.0.1-beta =
 * Initial release of plugin
