@@ -376,12 +376,12 @@ class woo_mailchimp_product_class{
 										'FNAME' => $data['order_billing_first_name'],
 										'LNAME' => $data['order_billing_last_name'],
 										//'BIRTHDAY' => '',
-										'ADDRESS' => array(
+										/*'ADDRESS' => array(
 											'addr1' => $data['order_billing_address_1'],
 											'city' => $data['order_billing_city'],
 											'state' => $data['order_billing_state'],
 											'zip' => $data['order_billing_postcode'],
-										),
+										),*/
 									),
 								);
 								
@@ -867,7 +867,7 @@ class woo_mailchimp_product_class{
 			}else{
 				
 				$checked = 'checked="checked"';
-							}
+			}
 			
         ?>
 			<label for="mailchimp_list_select"><strong><?php _e( 'Select Existing List:', 'wmptls' ); ?></strong></label>
@@ -1168,12 +1168,12 @@ jQuery(document).ready(function($){
 										'FNAME' => $data['order_billing_first_name'],
 										'LNAME' => $data['order_billing_last_name'],
 										//'BIRTHDAY' => '',
-										'ADDRESS' => array(
+										/*'ADDRESS' => array(
 											'addr1' => $data['order_billing_address_1'],
 											'city' => $data['order_billing_city'],
 											'state' => $data['order_billing_state'],
 											'zip' => $data['order_billing_postcode'],
-										),
+										),*/
 									),
 								);
 								
@@ -1515,12 +1515,12 @@ jQuery(document).ready(function($){
 							'FNAME' => $data['order_billing_first_name'],
 							'LNAME' => $data['order_billing_last_name'],
 							//'BIRTHDAY' => '',
-							'ADDRESS' => array(
+							/*'ADDRESS' => array(
 								'addr1' => $data['order_billing_address_1'],
 								'city' => $data['order_billing_city'],
 								'state' => $data['order_billing_state'],
 								'zip' => $data['order_billing_postcode'],
-							),
+							),*/
 						),
 					);
 					
